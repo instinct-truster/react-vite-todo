@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Header } from "./components/Header";
 import { Tasks } from "./components/Tasks";
 
@@ -6,6 +6,7 @@ const LOCAL_STORAGE_KEY = "todo:savedTasks";
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const deletedTaskList = useRef([]).current;
 
   function loadSavedTasks() {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -34,7 +35,23 @@ function App() {
     ]);
   }
 
+  function undoTaskDelete() {
+    if (deletedTaskList.length <= 0) {
+      return;
+    }
+    const taskToRestore = deletedTaskList[deletedTaskList.length - 1];
+    setTasksAndSave(tasks.concat(taskToRestore));
+    deletedTaskList.pop();
+  }
+
   function deleteTaskById(taskId) {
+    const taskIndex = tasks.findIndex((task) => task.id === taskId);
+    if (taskIndex === -1) {
+      return;
+    }
+    const taskToDelete = tasks[taskIndex];
+    deletedTaskList.push(taskToDelete);
+
     const newTasks = tasks.filter((task) => task.id !== taskId);
     setTasksAndSave(newTasks);
   }
@@ -55,6 +72,9 @@ function App() {
   return (
     <>
       <Header onAddTask={addTask} />
+      {deletedTaskList.length > 0 ? (
+        <button onClick={undoTaskDelete}>Undo</button>
+      ) : null}
       <Tasks
         tasks={tasks}
         onDelete={deleteTaskById}

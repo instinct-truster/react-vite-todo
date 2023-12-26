@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Task } from "../Task";
 import styles from "./tasks.module.css";
 
@@ -8,7 +9,7 @@ export function Tasks({ tasks, onComplete, onDelete }) {
     <section className={styles.tasks}>
       <header className={styles.header}>
         <div>
-          <p>Create tasks</p>
+          <p>Created tasks</p>
           <span>{tasksQuantity}</span>
         </div>
 

@@ -1,4 +1,4 @@
-import spotify from "../../assets/spotify.svg";
+import bullseye from "../../assets/bullseye.svg";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import styles from "./header.module.css";
 import { useState } from "react";
@@ -19,7 +19,7 @@ export function Header({ onAddTask }) {
 
   return (
     <header className={styles.header}>
-      <img src={spotify} />
+      <img src={bullseye} />
 
       <form onSubmit={handleSubmit} className={styles.newTaskForm}>
         <input
